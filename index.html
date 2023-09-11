@@ -4,10 +4,16 @@
         <meta charset="utf-8">
         <title>Rock Paper Scissors</title>
         <script>
+            //list of choices for computer to randomly select
             let choices = ['rock', 'paper', 'scissors'];
+
+            //default values to avoid any issues with lack of value when comparing
             let player = 'rock';
             let computer = 'rock';
             let playerChoiceValid = false;
+            //global playerScore variable to be accessed by game() and compareChoices() (since compareChoices only returns a string
+            //as per TOP instructions)
+            let playerScore = 0;
             
             function getComputerChoice(){
                 return choices[Math.floor(Math.random() * 3)];
@@ -50,22 +56,43 @@
                         computerWins = playerChoice == 'paper' ? true : false;
                     break;
                 }
-                if(computerWins) return 'computer wins';
-                return 'you win!';
+                if(computerWins) return `computer wins: ${computer} beats ${player}`;
+                playerScore ++;
+                return `you win! ${player} beats ${computer}`;
             }
 
-            //test implementation/////////////////////////////////////////////////
-            computer = getComputerChoice();
-            //receive player input and check for validity
-            while(playerChoiceValid == false){
-                player = getPlayerChoice();
-                playerChoiceValid = isPlayerChoiceValid(player)
-            }
-            //Compare Computer vs player choice
-            console.log("Computer chose: " + computer);
-            console.log("You chose: " + player);
-            console.log(compareChoices(computer, player));
 
+            function playRound(roundNumber){
+                console.log(`##### ROUND ${roundNumber} #####`);
+
+                player = 'rock';
+                computer = 'rock';
+                playerChoiceValid = false;
+                computer = getComputerChoice();
+                //receive player input and check for validity
+                while(playerChoiceValid == false){
+                    player = getPlayerChoice();
+                    playerChoiceValid = isPlayerChoiceValid(player)
+                }
+                //Compare Computer vs player choice
+                console.log("Computer chose: " + computer);
+                console.log("You chose: " + player);
+                console.log(compareChoices(computer, player));
+            }
+
+            function game(){
+                let roundNumber = 1;
+                playerScore = 0;
+                while(roundNumber < 6){
+                    playRound(roundNumber);
+                    roundNumber ++;
+                }
+                //if player wins over half of 5 rounds they win the game
+                let finalMessage = playerScore > 2 ? "You won the game!!" : "Better luck next time!";
+                console.log(finalMessage);
+            }
+
+            game();
         </script>
     </head>
     <body>

@@ -5,12 +5,67 @@
         <title>Rock Paper Scissors</title>
         <script>
             let choices = ['rock', 'paper', 'scissors'];
+            let player = 'rock';
+            let computer = 'rock';
+            let playerChoiceValid = false;
             
             function getComputerChoice(){
                 return choices[Math.floor(Math.random() * 3)];
             }
             
-            
+            function getPlayerChoice(){
+                //variable for player choice
+                let playerC = ''
+
+                //ask player for choice
+                playerC = prompt("Do you pick rock, paper, or scissors?");
+                //sanitise choice
+                playerC = playerC.toLowerCase();
+
+                //return choice
+                return playerC;
+            }
+
+            //check player choice is one of rock, paper, or scissors
+            function isPlayerChoiceValid(choiceIn){
+                return choices.includes(choiceIn) ? true : false;
+            }
+
+            //calculate who wins
+            function compareChoices(computerChoice, playerChoice){
+                let computerWins;
+                if(computerChoice == playerChoice){
+                    return "tye result"
+                }
+                switch(computerChoice){
+                    case 'rock':
+                        computerWins = playerChoice == 'scissors' ? true : false;
+                    break;
+
+                    case 'paper':
+                        computerWins = playerChoice == 'rock' ? true : false;
+                    break;
+
+                    case 'scissors':
+                        computerWins = playerChoice == 'paper' ? true : false;
+                    break;
+                }
+                if(computerWins) return 'computer wins';
+                return 'you win!';
+            }
+
+            //test implementation/////////////////////////////////////////////////
+            computer = getComputerChoice();
+            //receive player input and check for validity
+            while(playerChoiceValid == false){
+                player = getPlayerChoice();
+                playerChoiceValid = isPlayerChoiceValid(player)
+            }
+            //Compare Computer vs player choice
+            console.log("Computer chose: " + computer);
+            console.log("You chose: " + player);
+            console.log(compareChoices(computer, player));
+
         </script>
     </head>
     <body>
